@@ -1,0 +1,209 @@
+<html>
+  <head>
+    <title>keelsCovidNewTabGenerator</title>
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
+    <style>
+      @font-face {
+        font-family: "AminoAltBlack";
+        src: url("AminoAltBlack.ttf"); /* IE9 Compat Modes */
+        src: url("webfont.eot?#iefix") format("embedded-opentype"),
+          /* IE6-IE8 */ url("webfont.woff") format("woff"),
+          /* Modern Browsers */ url("AminoAltBlack.ttf") format("truetype"),
+          /* Safari, Android, iOS */ url("webfont.svg#svgFontName")
+            format("svg"); /* Legacy iOS */
+      }
+
+      :root {
+        --main-bg-color: #62bb47;
+      }
+
+      input[type="number"] {
+        -webkit-appearance: textfield;
+        -moz-appearance: textfield;
+        appearance: textfield;
+      }
+
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+      }
+
+      .number-input {
+        border: 0;
+        display: block;
+      }
+
+      .number-input,
+      .number-input * {
+        box-sizing: border-box;
+      }
+
+      .number-input button {
+        outline: none;
+        -webkit-appearance: none;
+        background-color: transparent;
+        border: none;
+        align-items: center;
+        justify-content: center;
+        width: 3rem;
+        height: 3rem;
+        cursor: pointer;
+        margin: 0;
+        position: relative;
+        box-shadow: 0px 0px 1px #474747;
+        border-radius: 50%;
+      }
+
+      .number-input button:before,
+      .number-input button:after {
+        display: inline-block;
+        position: absolute;
+        content: "";
+        width: 1rem;
+        height: 2px;
+        background-color: #212121;
+        transform: translate(-50%, -50%);
+      }
+      .number-input button.plus:after {
+        transform: translate(-50%, -50%) rotate(90deg);
+      }
+
+      label {
+        font-family: "AminoAltBlack";
+        color: var(--main-bg-color);
+      }
+
+      .number-input input[type="number"] {
+        font-family: "AminoAltBlack";
+        max-width: 5rem;
+
+        padding: 0.5rem;
+        border: none;
+        border-width: 0 2px;
+        font-size: 2rem;
+        height: 3rem;
+        font-weight: bold;
+        text-align: center;
+
+        color: var(--main-bg-color);
+      }
+    </style>
+  </head>
+  <body>
+    <div style="margin: 14px; width: 100%; text-align: center;">
+      <!--interval-->
+      <div class="number-input">
+        <label>Minutes before new tab</label><br />
+        <button
+          onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+        ></button>
+        <input
+          id="interval"
+          class="quantity"
+          min=".1"
+          max="99"
+          name="quantity"
+          value="1"
+          type="number"
+          step=".1"
+          onKeyDown="return false"
+        />
+        <button
+          onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+          class="plus"
+        ></button>
+      </div>
+      <!---->
+
+      <!--limit-->
+      <div class="number-input">
+        <label style="margin-top: 14px;">Maximum tabs allowed</label><br />
+        <button
+          onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+        ></button>
+        <input
+          id="limit"
+          class="quantity"
+          min="1"
+          max="199"
+          name="quantity"
+          value="25"
+          type="number"
+          onKeyDown="return false"
+        />
+        <button
+          onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+          class="plus"
+        ></button>
+      </div>
+
+      <button
+        id="setIt"
+        style="
+          margin-top: 14px;
+          background-color: var(--main-bg-color);
+          border: none;
+          font-family: 'AminoAltBlack';
+        "
+        type="button"
+        class="btn btn-success"
+        onclick="javascript:openUrlOnClick(document.getElementById('interval').value * 60000);"
+      >
+        Set it
+      </button>
+    </div>
+
+    <!---->
+
+    <script>
+      window.ifTimed = 0;
+
+      function openUrlOnClick(x) {
+        setInterval(openUrl, x); // Wait 5 seconds
+        var y = document.getElementById("limit").value;
+
+        function openUrl() {
+          if (y !== 0) {
+            var redirectWindow = window.open(
+              "https://int.keellssuper.net/",
+              "_blank"
+            );
+            $.ajax({
+              type: "POST",
+              url: "/echo/json/",
+              success: function (data) {
+                redirectWindow.location;
+              },
+            });
+
+            y = y - 1;
+          } else {
+            location.reload();
+          }
+        }
+      }
+
+      function setTheText() {
+        if ((document.getElementById("setIt").innerHTML = "Set it")) {
+          document.getElementById("setIt").innerHTML = "Turn it off";
+          if (ifTimed == 1) {
+            location.reload();
+          }
+        }
+      }
+
+      document.getElementById("setIt").addEventListener("click", function () {
+        setTheText();
+        window.ifTimed = 1;
+      });
+    </script>
+  </body>
+</html>
