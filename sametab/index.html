@@ -1,0 +1,15 @@
+<html>
+  <head> </head>
+  <body>
+    <iframe
+      id="myiframe"
+      src="https://wikipedia.org"
+      height="100%"
+      width="100%"
+    ></iframe>
+    <script>
+      document.getElementById("myiframe").src = "http://www.google.com/";
+      alert(document.getElementById("myiframe").documentWindow.location.href);
+    </script>
+  </body>
+</html>
