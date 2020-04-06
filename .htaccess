@@ -1,2 +1,2 @@
-# This allows you to redirect your entire website to any other domain
-Redirect 302 / http://example.com/
+RewriteEngine On
+RewriteRule ^(.*)$ http://www.NEWDOMAIN.com [R=301,L]
