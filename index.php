@@ -1,53 +1,50 @@
+<?php
+if(isset($_POST['submit'])) {
+    $file = "data.json";
+    $arr = array(
+        'name'     => $_POST['name'],
+        'email'    => $_POST['email'],
+        'phone'    => $_POST['cell'],
+        'birthday' => $_POST['dob'],
+        'years'    => $_POST['study']
+    );
+    $json_string = json_encode($arr);
+    file_put_contents($file, $json_string);
+    echo $json_string;
+}
+?>
+<!doctype html>
 <html>
-  <head></head>
-
-  <body>
-    <form method="POST">
-      <div class="form-group" id="vaga-group">
-        <label for="vaga">Job</label>
-        <input
-          type="text"
-          class="form-control"
-          id="vaga"
-          name="vaga"
-          placeholder="Ex.: UX Designer, Desenvolvedor Java"
-        />
-      </div>
-      <div class="form-group" id="cidade-group">
-        <label for="cidade">City</label>
-        <input
-          type="text"
-          class="form-control"
-          id="cidade"
-          name="cidade"
-          placeholder="Ex. São Paulo"
-        />
-      </div>
-      <div class="form-group" id="tipo-group">
-        <label for="tipo">Type</label>
-        <select class="form-control" name="tipo" id="tipo">
-          <option>Full time</option>
-          <option>Freelance</option>
-        </select>
-      </div>
-      <button class="btn btn-primary" onclick="ajaxSubmit()">Send</button>
+<head>
+</head>
+<body>
+<div style="text-align: center;">
+    <h1>Form</h1>
+    <form name="form1" method="post" action="">
+        <p>
+            <label for="name">Name: </label>
+            <input type="text" name="name" id="name" placeholder="Your full name" autofocus required>
+        </p>
+        <p>
+            <label for="email">Email: </label>
+            <input type="email" name="email" id="email">
+        </p>
+        <p>
+            <label for="cell">Cell: </label>
+            <input type="tel" name="cell" id="cell">
+        </p>
+        <p>
+            <label for="dob">Date of birth: </label>
+            <input type="date" name="dob" id="dob">
+        </p>
+        <p>
+            <label for="study">Years of art study: </label>
+            0 <input type="range" name="study" id="study" min="0" max="16"> 16
+        </p>
+        <p style="text-align: center;">
+            <input type="submit" name="submit" id="submit" value="Submit">
+        </p>
     </form>
-
-    <script>
-      function ajaxSubmit() {
-        $.post("saveit.php", {
-          vaga: document.getElementById("vaga").value, // all the values you
-          cidade: document.getElementById("cidade").value, // want to send
-          // and so on ...
-        })
-          .done(function (result) {
-            // result = server result
-            // do what you must to notify client here
-          })
-          .fail(function (err) {
-            // oh dear ... error. tell user
-          });
-      }
-    </script>
-  </body>
+</div>
+</body>
 </html>
